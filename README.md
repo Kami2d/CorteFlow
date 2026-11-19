@@ -33,6 +33,8 @@ npm run dev
 
 Depois do onboarding, cadastre nesta ordem: **Serviços → Barbeiros → Planos → Configurações**. Sem barbeiros e serviços não há horários disponíveis.
 
+> **Erro `Could not find the function public.create_barbershop_for_current_user ... in the schema cache`:** o banco está correto, mas o PostgREST não recarregou o cache. Execute `supabase/migrations/0002_reload_schema_cache.sql` no SQL Editor (ou use **Settings → API → Reload schema cache** no painel do Supabase) e tente novamente.
+
 ## O que está implementado
 
 - **Dashboard**: contadores do dia (total, confirmados, aguardando, chegou, em atendimento, concluídos, cancelamentos) e próximos atendimentos. Sem dados financeiros.

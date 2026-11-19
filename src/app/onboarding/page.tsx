@@ -42,7 +42,12 @@ export default function OnboardingPage() {
     } catch (err) {
       console.error("[CorteFlow] falha ao criar barbearia", err);
       setErrorDetails(err);
-      setError(getErrorMessage(err, "Erro ao criar barbearia."));
+      const message = getErrorMessage(err, "Erro ao criar barbearia.");
+      setError(
+        /schema cache|could not find the function/i.test(message)
+          ? "A RPC de onboarding ainda não está no cache do Supabase. Execute o arquivo supabase/migrations/0002_reload_schema_cache.sql no SQL Editor e tente novamente."
+          : message
+      );
     } finally {
       setBusy(false);
     }
