@@ -5,8 +5,9 @@ export default function SetupPage() {
     <div className="flex min-h-screen items-center justify-center bg-ink-950 p-5">
       <div className="card w-full max-w-2xl p-7 sm:p-10">
         <div className="mb-6 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-gold-200 to-gold-500 text-ink-950">
-            <Scissors size={21} />
+          <div className="flex h-11 w-12 items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logotipo.png" alt="CorteFlow" className="max-h-11 w-12 object-contain" />
           </div>
           <div>
             <h1 className="text-lg font-bold text-white">CorteFlow</h1>

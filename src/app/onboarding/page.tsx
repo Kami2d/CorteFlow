@@ -3,7 +3,6 @@ import { getErrorMessage } from "@/lib/errors";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Scissors } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
 import { Button, ErrorDebug, Field, Input } from "@/components/ui";
 import { getSupabase } from "@/lib/supabase";
@@ -57,8 +56,9 @@ export default function OnboardingPage() {
     <div className="flex min-h-screen items-center justify-center bg-ink-950 p-5">
       <div className="w-full max-w-md animate-fade-in">
         <div className="mb-7 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-gold-200 to-gold-500 text-ink-950">
-            <Scissors size={21} />
+          <div className="flex h-11 w-12 items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logotipo.png" alt="CorteFlow" className="max-h-11 w-12 object-contain" />
           </div>
           <div>
             <p className="text-lg font-bold text-white">CorteFlow</p>

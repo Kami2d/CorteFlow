@@ -4,7 +4,7 @@ import { getErrorMessage } from "@/lib/errors";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ArrowRight, LockKeyhole, Mail, Scissors, ShieldCheck } from "lucide-react";
+import { ArrowRight, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
 import { Button, ErrorDebug, Field, Input } from "@/components/ui";
 
@@ -64,8 +64,9 @@ export default function LoginPage() {
         <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-gold-400/[0.07] blur-3xl" />
         <div className="absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-gold-600/[0.06] blur-3xl" />
         <div className="relative flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-gold-200 to-gold-500 text-ink-950 shadow-gold">
-            <Scissors size={22} strokeWidth={2.4} />
+          <div className="flex h-11 w-12 items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logotipo.png" alt="CorteFlow" className="max-h-11 w-12 object-contain" />
           </div>
           <div>
             <p className="text-lg font-bold text-white">CorteFlow</p>
@@ -93,8 +94,9 @@ export default function LoginPage() {
       <div className="flex items-center justify-center p-6 sm:p-10">
         <div className="w-full max-w-sm animate-fade-in">
           <div className="mb-8 flex items-center gap-3 lg:hidden">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-gold-200 to-gold-500 text-ink-950">
-              <Scissors size={20} />
+            <div className="flex h-10 w-11 items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logotipo.png" alt="CorteFlow" className="max-h-10 w-11 object-contain" />
             </div>
             <span className="text-lg font-bold text-white">CorteFlow</span>
           </div>

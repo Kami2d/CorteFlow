@@ -37,8 +37,9 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-[72px] items-center gap-3 border-b border-white/[0.06] px-5">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-gold-200 to-gold-500 text-ink-950 shadow-gold">
-          <Scissors size={19} strokeWidth={2.4} />
+        <div className="flex h-9 w-11 shrink-0 items-center justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logotipo.png" alt="CorteFlow" className="max-h-9 w-11 object-contain" />
         </div>
         <div className="min-w-0">
           <p className="truncate text-[15px] font-bold tracking-tight text-white">CorteFlow</p>
