@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/errors";
 
 import { useMemo, useState } from "react";
 import { CalendarClock, ImageIcon, Pencil, Plus, Scissors, Trash2 } from "lucide-react";
@@ -139,7 +140,7 @@ export default function BarbeirosPage() {
       await reload();
       setOpen(false);
     } catch (err) {
-      setFormError(err instanceof Error ? err.message : "Erro ao salvar barbeiro.");
+      setFormError(getErrorMessage(err, "Erro ao salvar barbeiro."));
     } finally {
       setBusy(false);
     }
@@ -152,7 +153,7 @@ export default function BarbeirosPage() {
       await remove(deleting.id);
       setDeleting(null);
     } catch (err) {
-      setFormError(err instanceof Error ? err.message : "Erro ao excluir barbeiro.");
+      setFormError(getErrorMessage(err, "Erro ao excluir barbeiro."));
       setDeleting(null);
       setOpen(true);
       await reload();

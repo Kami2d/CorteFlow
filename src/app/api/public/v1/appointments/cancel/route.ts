@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/lib/errors";
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { apiError, apiSuccess, preflight, validateApiKey } from "@/lib/api";
@@ -33,6 +34,7 @@ export async function POST(request: NextRequest) {
     if (!data) return apiError("Agendamento não encontrado ou já encerrado", 404);
     return apiSuccess({ message: "Agendamento cancelado." });
   } catch (err) {
-    return apiError(err instanceof Error ? err.message : "Erro interno", 500);
+    console.error("[CorteFlow API] falha ao cancelar agendamento", err);
+    return apiError(getErrorMessage(err, "Erro interno"), 500);
   }
 }

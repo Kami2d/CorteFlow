@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/lib/errors";
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { apiError, apiSuccess, preflight, validateApiKey } from "@/lib/api";
@@ -60,6 +61,7 @@ export async function POST(request: NextRequest) {
     }
     return apiSuccess({ data, message: "Agendamento criado com sucesso." }, 201);
   } catch (err) {
-    return apiError(err instanceof Error ? err.message : "Erro interno", 500);
+    console.error("[CorteFlow API] falha ao criar agendamento", err);
+    return apiError(getErrorMessage(err, "Erro interno"), 500);
   }
 }

@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/errors";
 
 import { useMemo, useState } from "react";
 import { Clock3, Pencil, Plus, Scissors, Trash2 } from "lucide-react";
@@ -72,7 +73,7 @@ export default function ServicosPage() {
       await reload();
       setOpen(false);
     } catch (err) {
-      setFormError(err instanceof Error ? err.message : "Erro ao salvar serviço.");
+      setFormError(getErrorMessage(err, "Erro ao salvar serviço."));
     } finally {
       setBusy(false);
     }
@@ -85,7 +86,7 @@ export default function ServicosPage() {
       await remove(deleting.id);
       setDeleting(null);
     } catch (err) {
-      setFormError(err instanceof Error ? err.message : "Erro ao excluir serviço.");
+      setFormError(getErrorMessage(err, "Erro ao excluir serviço."));
       setDeleting(null);
       setOpen(true);
       await reload();

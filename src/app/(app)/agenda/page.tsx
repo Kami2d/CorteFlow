@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/errors";
 
 import { useEffect, useMemo, useState } from "react";
 import { addDays, endOfMonth, format, parseISO, startOfMonth, startOfWeek } from "date-fns";
@@ -475,7 +476,7 @@ function BlockTimeModal({
       onSaved();
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao bloquear horário.");
+      setError(getErrorMessage(err, "Erro ao bloquear horário."));
     } finally {
       setBusy(false);
     }

@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/errors";
 
 import { useEffect, useMemo, useState } from "react";
 import { Clock3, Layers3, Pencil, Plus, Trash2 } from "lucide-react";
@@ -83,7 +84,7 @@ export default function PlanosPage() {
       await plans.reload();
       setOpen(false);
     } catch (err) {
-      setFormError(err instanceof Error ? err.message : "Erro ao salvar plano.");
+      setFormError(getErrorMessage(err, "Erro ao salvar plano."));
     } finally {
       setBusy(false);
     }
@@ -96,7 +97,7 @@ export default function PlanosPage() {
       await plans.remove(deleting.id);
       setDeleting(null);
     } catch (err) {
-      setFormError(err instanceof Error ? err.message : "Erro ao excluir plano.");
+      setFormError(getErrorMessage(err, "Erro ao excluir plano."));
       setDeleting(null);
       setOpen(true);
       await plans.reload();

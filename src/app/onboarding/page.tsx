@@ -1,10 +1,11 @@
 "use client";
+import { getErrorMessage } from "@/lib/errors";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Scissors } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
-import { Button, Field, Input } from "@/components/ui";
+import { Button, ErrorDebug, Field, Input } from "@/components/ui";
 import { getSupabase } from "@/lib/supabase";
 
 export default function OnboardingPage() {
@@ -15,6 +16,7 @@ export default function OnboardingPage() {
   const [whatsapp, setWhatsapp] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errorDetails, setErrorDetails] = useState<unknown>(null);
 
   useEffect(() => {
     if (!loading && (!session || !needsOnboarding)) router.replace("/login");
@@ -25,6 +27,7 @@ export default function OnboardingPage() {
     if (!name.trim()) return;
     setBusy(true);
     setError(null);
+    setErrorDetails(null);
     try {
       const { data, error } = await getSupabase().rpc("create_barbershop_for_current_user", {
         p_name: name.trim(),
@@ -37,7 +40,9 @@ export default function OnboardingPage() {
       await refresh();
       router.replace("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao criar barbearia.");
+      console.error("[CorteFlow] falha ao criar barbearia", err);
+      setErrorDetails(err);
+      setError(getErrorMessage(err, "Erro ao criar barbearia."));
     } finally {
       setBusy(false);
     }
@@ -69,7 +74,12 @@ export default function OnboardingPage() {
           <Field label="WhatsApp (opcional)">
             <Input value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} placeholder="(11) 99999-9999" />
           </Field>
-          {error && <p className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-3 text-xs text-rose-300">{error}</p>}
+          {error && (
+            <div className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-3 text-xs text-rose-300">
+              <p>{error}</p>
+              {errorDetails !== null && <ErrorDebug error={errorDetails} />}
+            </div>
+          )}
           <Button type="submit" variant="primary" className="w-full" loading={busy}>
             Criar barbearia e entrar
           </Button>

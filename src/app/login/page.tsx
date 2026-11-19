@@ -1,11 +1,12 @@
 "use client";
+import { getErrorMessage } from "@/lib/errors";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowRight, LockKeyhole, Mail, Scissors, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
-import { Button, Field, Input } from "@/components/ui";
+import { Button, ErrorDebug, Field, Input } from "@/components/ui";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function LoginPage() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [errorDetails, setErrorDetails] = useState<unknown>(null);
 
   useEffect(() => {
     if (loading) return;
@@ -38,6 +40,7 @@ export default function LoginPage() {
     e.preventDefault();
     setBusy(true);
     setError(null);
+    setErrorDetails(null);
     setMessage(null);
     try {
       if (mode === "login") {
@@ -47,7 +50,9 @@ export default function LoginPage() {
         setMessage(result.message);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Não foi possível entrar.");
+      console.error("[CorteFlow] falha de autenticação", err);
+      setErrorDetails(err);
+      setError(getErrorMessage(err, "Não foi possível entrar."));
     } finally {
       setBusy(false);
     }
@@ -112,7 +117,12 @@ export default function LoginPage() {
             <Field label="Senha">
               <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Mínimo 6 caracteres" minLength={6} required autoComplete={mode === "login" ? "current-password" : "new-password"} />
             </Field>
-            {error && <p className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-3 text-xs text-rose-300">{error}</p>}
+            {error && (
+              <div className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-3 text-xs text-rose-300">
+                <p>{error}</p>
+                {errorDetails !== null && <ErrorDebug error={errorDetails} />}
+              </div>
+            )}
             {message && <p className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3 text-xs text-emerald-300">{message}</p>}
             <Button type="submit" variant="primary" className="w-full" loading={busy}>
               {mode === "login" ? "Entrar no painel" : "Criar minha conta"}

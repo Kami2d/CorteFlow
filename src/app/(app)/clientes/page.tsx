@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/errors";
 
 import { useMemo, useState } from "react";
 import { CalendarDays, MessageCircle, Pencil, Phone, Plus, Trash2, Users } from "lucide-react";
@@ -57,7 +58,7 @@ export default function ClientesPage() {
       else await insert(values);
       setOpen(false);
     } catch (err) {
-      setFormError(err instanceof Error ? err.message : "Erro ao salvar cliente.");
+      setFormError(getErrorMessage(err, "Erro ao salvar cliente."));
     } finally {
       setBusy(false);
     }
@@ -70,7 +71,7 @@ export default function ClientesPage() {
       await remove(deleting.id);
       setDeleting(null);
     } catch (err) {
-      setFormError(err instanceof Error ? err.message : "Não foi possível excluir o cliente.");
+      setFormError(getErrorMessage(err, "Não foi possível excluir o cliente."));
       setDeleting(null);
       setOpen(true);
     } finally {

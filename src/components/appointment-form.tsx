@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/errors";
 
 import { useEffect, useMemo, useState } from "react";
 import { CalendarDays, Clock3, Plus, Scissors, UserRound } from "lucide-react";
@@ -147,7 +148,7 @@ export function AppointmentForm({
       onSaved();
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao salvar agendamento.");
+      setError(getErrorMessage(err, "Erro ao salvar agendamento."));
     } finally {
       setBusySaving(false);
     }
@@ -175,7 +176,7 @@ export function AppointmentForm({
       setNewPhone("");
       onClientCreated();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao cadastrar cliente.");
+      setError(getErrorMessage(err, "Erro ao cadastrar cliente."));
     } finally {
       setBusySaving(false);
     }

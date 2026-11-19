@@ -1,4 +1,5 @@
 "use client";
+import { getErrorMessage } from "@/lib/errors";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -57,7 +58,7 @@ export default function ConfiguracoesPage() {
       await refresh();
       setMessage("Configurações salvas com sucesso.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao salvar configurações.");
+      setError(getErrorMessage(err, "Erro ao salvar configurações."));
     } finally {
       setBusy(false);
     }

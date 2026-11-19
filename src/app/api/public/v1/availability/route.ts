@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/lib/errors";
 import type { NextRequest } from "next/server";
 import { computeAvailableSlots, type Interval } from "@/lib/availability";
 import { apiError, apiSuccess, getUuidParam, preflight, validateApiKey } from "@/lib/api";
@@ -99,6 +100,7 @@ export async function GET(request: NextRequest) {
       meta: { durationMinutes: duration, total: slots.length },
     });
   } catch (err) {
-    return apiError(err instanceof Error ? err.message : "Erro interno", 500);
+    console.error("[CorteFlow API] falha ao calcular disponibilidade", err);
+    return apiError(getErrorMessage(err, "Erro interno"), 500);
   }
 }

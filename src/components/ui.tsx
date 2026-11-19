@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { AlertCircle, Loader2, Search, X } from "lucide-react";
+import { AlertCircle, Bug, Check, Copy, Loader2, Search, X } from "lucide-react";
 import {
   type ButtonHTMLAttributes,
   type InputHTMLAttributes,
@@ -9,7 +9,9 @@ import {
   type SelectHTMLAttributes,
   type TextareaHTMLAttributes,
   useEffect,
+  useState,
 } from "react";
+import { formatErrorLog } from "@/lib/errors";
 
 export function PageHeader({
   title,
@@ -296,4 +298,48 @@ export function StatCard({
 
 export function StatusBadge({ label, style }: { label: string; style: string }) {
   return <span className={clsx("badge", style)}>{label}</span>;
+}
+
+/** Mostra o erro cru do Supabase quando o deploy não aceita logs de console. */
+export function ErrorDebug({ error }: { error: unknown }) {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const log = formatErrorLog(error);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(log);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  };
+
+  return (
+    <div className="mt-2">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-400 underline decoration-slate-600 underline-offset-2 transition hover:text-gold-200"
+      >
+        <Bug size={12} /> {open ? "Ocultar log técnico" : "Ver log técnico"}
+      </button>
+      {open && (
+        <div className="mt-2 rounded-xl border border-white/10 bg-ink-950 p-3">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-[10px] uppercase tracking-wider text-slate-600">Saída bruta</span>
+            <button
+              type="button"
+              onClick={() => void copy()}
+              className="inline-flex items-center gap-1 text-[11px] text-slate-400 hover:text-gold-200"
+            >
+              {copied ? <Check size={12} /> : <Copy size={12} />} {copied ? "Copiado" : "Copiar"}
+            </button>
+          </div>
+          <pre className="max-h-48 overflow-auto whitespace-pre-wrap break-all font-mono text-[10px] leading-relaxed text-rose-200">{log}</pre>
+        </div>
+      )}
+    </div>
+  );
 }
